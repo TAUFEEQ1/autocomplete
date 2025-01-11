@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>User Details</h2>
+    <div class="card">
+        <img src="https://picsum.photos/200" class="card-img-top" alt="Placeholder Image">
+        <div class="card-body">
+            <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}</h5>
+            <p class="card-text">NIN: {{ user.nin | default('NA') }}</p>
+            <p class="card-text">Nationality: {{ user.nationality }}</p>
+            <p class="card-text">Phone Number: {{ user.phone_no }}</p>
+            <p class="card-text">Next of Kin: {{ user.next_of_kin }}</p>
+            <p class="card-text">Next of Kin Phone Number: {{ user.next_of_kin_phone_no }}</p>
+            <p class="card-text">District: {{ user.district }}</p>
+            <p class="card-text">Subcounty: {{ user.subcounty }}</p>
+            <p class="card-text">Parish: {{ user.parish }}</p>
+            <p class="card-text">Village: {{ user.village }}</p>
+            <p class="card-text">Residence: {{ user.residence }}</p>
+            <a href="{{ url_for('edit_user', id=user.id) }}" class="btn btn-primary">Edit</a>
+            <a href="{{ url_for('delete_user', id=user.id) }}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

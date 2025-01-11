@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block start_scripts %}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places&callback=initAutocomplete" async defer></script>
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Register</h2>
+    <form method="POST" action="{{ url_for('register') }}">
+        <div class="form-group">
+            <label for="firstname">First Name</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" required>
+        </div>
+        <div class="form-group">
+            <label for="lastname">Last Name</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" required>
+        </div>
+        <div class="form-group">
+            <label for="nin">NIN</label>
+            <input type="text" class="form-control" id="nin" name="nin">
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="nationality" name="nationality">
+                <option value="UG">Uganda</option>
+                <option value="KE">Kenya</option>
+                <option value="TZ">Tanzania</option>
+                <option value="RW">Rwanda</option>
+                <option value="SS">South Sudan</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="phone_no">Phone Number</label>
+            <input type="text" class="form-control" id="phone_no" name="phone_no" required>
+        </div>
+        <div class="form-group">
+            <label for="next_of_kin">Next of Kin Name</label>
+            <input type="text" class="form-control" id="next_of_kin" name="next_of_kin" required>
+        </div>
+        <div class="form-group">
+            <label for="next_of_kin_phone_no">Next of Kin Phone Number</label>
+            <input type="text" class="form-control" id="next_of_kin_phone_no" name="next_of_kin_phone_no" required>
+        </div>
+
+        <div class="form-group">
+            <label for="district">District</label>
+            <input type="text" class="form-control" id="district" name="district" required>
+        </div>
+        <div class="form-group">
+            <label for="residence">Residence</label>
+            <input type="text" class="form-control" id="residence" name="residence" required>
+            <input type="hidden" id="latitude" name="latitude">
+            <input type="hidden" id="longitude" name="longitude">
+        </div>
+
+        <div class="form-group">
+            <label for="subcounty">Subcounty</label>
+            <input type="text" class="form-control" id="subcounty" name="subcounty" required>
+        </div>
+        <div class="form-group">
+            <label for="parish">Parish</label>
+            <input type="text" class="form-control" id="parish" name="parish" required>
+        </div>
+        <div class="form-group">
+            <label for="village">Village</label>
+            <input type="text" class="form-control" id="village" name="village" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+{% endblock %}
+{% block end_scripts %}
+    <script>
+        function initAutocomplete() {
+            var input = document.getElementById('residence');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            // Optional: Restrict the search to certain countries (e.g., UG)
+            autocomplete.setComponentRestrictions({
+                country: ['ug'] // Set country code(s) here
+            });
+
+            autocomplete.addListener('place_changed', function() {
+                var place = autocomplete.getPlace();
+                document.getElementById('latitude').value = place.geometry.location.lat();
+                document.getElementById('longitude').value = place.geometry.location.lng();
+            });
+            
+        }
+    </script>
+{% endblock %}
