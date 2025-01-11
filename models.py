@@ -1,28 +1,22 @@
-from sqlalchemy import Column, Integer, String, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from flask_sqlalchemy import SQLAlchemy
 
-Base = declarative_base()
-# Update the database URL to use users.db
-DATABASE_URL = "sqlite:///./users.db"
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+db = SQLAlchemy()
 
-class User(Base):
+class User(db.Model):
     __tablename__ = 'users'
     
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    firstname = Column(String, nullable=False, index=True)
-    lastname = Column(String, nullable=False, index=True)
-    nin = Column(String, nullable=True)
-    phone_no = Column(String, nullable=True)
-    next_of_kin = Column(String, nullable=False)
-    next_of_kin_phone_no = Column(String, nullable=False)
-    district = Column(String, nullable=False)
-    subcounty = Column(String, nullable=False)
-    parish = Column(String, nullable=False)
-    village = Column(String, nullable=False)
-    residence = Column(String, nullable=False)
-    nationality = Column(String, nullable=False)
-    latitude = Column(String, nullable=False)
-    longitude = Column(String, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    firstname = db.Column(db.String, nullable=False, index=True)
+    lastname = db.Column(db.String, nullable=False, index=True)
+    nin = db.Column(db.String, nullable=True)
+    phone_no = db.Column(db.String, nullable=True)
+    next_of_kin = db.Column(db.String, nullable=False)
+    next_of_kin_phone_no = db.Column(db.String, nullable=False)
+    district = db.Column(db.String, nullable=False)
+    subcounty = db.Column(db.String, nullable=False)
+    parish = db.Column(db.String, nullable=False)
+    village = db.Column(db.String, nullable=False)
+    residence = db.Column(db.String, nullable=False)
+    nationality = db.Column(db.String, nullable=False)
+    latitude = db.Column(db.String, nullable=False)
+    longitude = db.Column(db.String, nullable=False)

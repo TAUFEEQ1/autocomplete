@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block start_scripts %}
+<script
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places&callback=initAutocomplete"
+    async defer></script>
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Register</h2>
+    <form method="POST" action="{{ url_for('register') }}">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.firstname.label }}
+                    {{ form.firstname(class="form-control") }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.lastname.label }}
+                    {{ form.lastname(class="form-control") }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.nin.label }}
+                    {{ form.nin(class="form-control") }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.nationality.label }}
+                    {{ form.nationality(class="form-control") }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.phone_no.label }}
+                    {{ form.phone_no(class="form-control") }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.next_of_kin.label }}
+                    {{ form.next_of_kin(class="form-control") }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.next_of_kin_phone_no.label }}
+                    {{ form.next_of_kin_phone_no(class="form-control") }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.district.label }}
+                    {{ form.district(class="form-control") }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.residence.label }}
+                    {{ form.residence(class="form-control", id="residence") }}
+                    {{ form.latitude(class="form-control", id="latitude", type="hidden") }}
+                    {{ form.longitude(class="form-control", id="longitude", type="hidden") }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.subcounty.label }}
+                    {{ form.subcounty(class="form-control") }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.parish.label }}
+                    {{ form.parish(class="form-control") }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.village.label }}
+                    {{ form.village(class="form-control") }}
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+    </form>
+</div>
+{% endblock %}
+{% block end_scripts %}
+<script>
+    function initAutocomplete() {
+        var input = document.getElementById('residence');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.setComponentRestrictions({
+            country: ['ug'] // Set country code(s) here
+        });
+
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            document.getElementById('latitude').value = place.geometry.location.lat();
+            document.getElementById('longitude').value = place.geometry.location.lng();
+        });
+    }
+</script>
+{% endblock %}

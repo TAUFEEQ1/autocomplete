@@ -127,3 +127,5 @@ cython_debug/
 users.db
 .vscode/settings.json
 scripts/set_envs.sh
+firstnames.txt
+lastnames.txt
