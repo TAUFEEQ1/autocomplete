@@ -16,6 +16,7 @@
     <h2>Register</h2>
     <form method="POST" action="{{ url_for('register') }}">
         {{ form.hidden_tag() }}
+        <h4>Personal Information</h4>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group autocomplete-container">
@@ -52,6 +53,7 @@
                 </div>
             </div>
         </div>
+        <h4>Next of Kin Information</h4>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -74,6 +76,7 @@
                 </div>
             </div>
         </div>
+        <h4>Residence Information</h4>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">

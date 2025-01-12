@@ -8,7 +8,9 @@ class UserForm(FlaskForm):
     lastname = StringField('Last Name', validators=[DataRequired(), Length(max=50)])
     nin = StringField('NIN', validators=[Optional(), Length(max=20)])
     phone_no = StringField('Phone Number', validators=[Optional(), Length(max=15)])
-    next_of_kin = StringField('Next of Kin', validators=[DataRequired(), Length(max=50)])
+    next_of_kin_firstname = StringField('Next of Kin (FirstName)', validators=[DataRequired(), Length(max=50)])
+    next_of_kin_lastname = StringField('Next of Kin (LastName)', validators=[DataRequired(), Length(max=50)])
+
     next_of_kin_phone_no = StringField('Next of Kin Phone Number', validators=[DataRequired(), Length(max=15)])
     district = StringField('District', validators=[DataRequired(), Length(max=50)])
     subcounty = StringField('Subcounty', validators=[Optional(), Length(max=50)])

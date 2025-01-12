@@ -41,10 +41,8 @@ def show_user(user_id):
 @app.route('/users/create', methods=['GET'],endpoint='new_user')
 def create_user():
     form = UserForm()
-    firstnames = firstname_handler.get_names().copy()
-    lastnames = lastname_handler.get_names().copy()
-    firstnames.sort()
-    lastnames.sort()
+    firstnames = firstname_handler.get_names()
+    lastnames = lastname_handler.get_names()
     return render_template('users/create.html', 
                            form=form, firstnames=firstnames, lastnames=lastnames, google_maps_key=google_maps_key)
 
@@ -57,7 +55,7 @@ def save_user():
     lastname = request.form['lastname']
     nin = request.form['nin']
     phone_no = request.form['phone_no']
-    next_of_kin = request.form['next_of_kin']
+    next_of_kin = request.form['next_of_kin_firstname'] + ' ' + request.form['next_of_kin_lastname']
     next_of_kin_phone_no = request.form['next_of_kin_phone_no']
     district = request.form['district']
     subcounty = request.form['subcounty']

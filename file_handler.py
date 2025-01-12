@@ -20,9 +20,9 @@ class FileHandler:
         """Append new names to the file."""
         names = self.get_names()
         names.extend(new_names)
+        names.sort()
 
-        with open(self.filename, 'a') as f:
-            for name in new_names:
-                f.write(f"{name}\n")
-
+        with open(self.filename, 'w') as f:
+            f.writelines(names)
+            
         return f"New names have been appended to {self.filename}."
