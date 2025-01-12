@@ -46,7 +46,7 @@ function capitalizeFirstLetter(string) {
         $input.after($suggestionsContainer);
         
         // Optional callback when a suggestion is selected
-        const onSelect = options.onSelect || function(item) { console.log('Selected:', item); };
+        const onSelect = options.onSelect || null;
 
         // Handle input change event
         $input.on('input', function() {
@@ -66,7 +66,7 @@ function capitalizeFirstLetter(string) {
               $item.on('click', function() {
                 $input.val(item);
                 $suggestionsContainer.empty().hide();
-                onSelect(item);
+                if (onSelect) onSelect(item);
               });
               $suggestionsContainer.append($item);
             });

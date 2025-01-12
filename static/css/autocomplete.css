@@ -8,13 +8,17 @@
     display: none;
     background-color: white;
     border: 1px solid #ccc;
-    max-height: 200px;
+    max-height: 130px;
     overflow-y: auto;
   }
+  
   .autocomplete-item {
     cursor: pointer;
-    padding: 8px;
+    border-bottom: 1px #ccc solid;
+    padding: .60rem 1.25rem;
   }
   .autocomplete-item:hover {
-    background-color: #f1f1f1;
+    background-color: #007bff;
+    border: #007bff;
+    color: white;
   }

@@ -18,15 +18,15 @@
         {{ form.hidden_tag() }}
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group autocomplete-container">
                     {{ form.firstname.label }}
                     {{ form.firstname(class="form-control name-input",autocomplete="test") }}
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group autocomplete-container">
                     {{ form.lastname.label }}
-                    {{ form.lastname(class="form-control name-input") }}
+                    {{ form.lastname(class="form-control name-input", autocomplete="test") }}
                 </div>
             </div>
         </div>
@@ -51,10 +51,18 @@
                     {{ form.phone_no(class="form-control") }}
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {{ form.next_of_kin.label }}
-                    {{ form.next_of_kin(class="form-control") }}
+                    {{ form.next_of_kin_firstname.label }}
+                    {{ form.next_of_kin_firstname(class="form-control") }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.next_of_kin_lastname.label }}
+                    {{ form.next_of_kin_lastname(class="form-control") }}
                 </div>
             </div>
         </div>
@@ -65,12 +73,6 @@
                     {{ form.next_of_kin_phone_no(class="form-control") }}
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{ form.district.label }}
-                    {{ form.district(class="form-control") }}
-                </div>
-            </div>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -79,26 +81,7 @@
                     {{ form.residence(class="form-control", id="residence") }}
                     {{ form.latitude(class="form-control", id="latitude", type="hidden") }}
                     {{ form.longitude(class="form-control", id="longitude", type="hidden") }}
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{ form.subcounty.label }}
-                    {{ form.subcounty(class="form-control") }}
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{ form.parish.label }}
-                    {{ form.parish(class="form-control") }}
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {{ form.village.label }}
-                    {{ form.village(class="form-control") }}
+                    {{ form.district(class="form-control", id="district", type="hidden") }}
                 </div>
             </div>
         </div>
@@ -129,11 +112,8 @@
     const firstnames = {{ firstnames|tojson }};
     const lastnames = {{ lastnames|tojson }};
     $(document).ready(function(){
-        $("#firstname").autocomplete(firstnames,{
-            onSelect:function(item){
-                console.log(item);
-            }
-        })
+        $("#firstname").autocomplete(firstnames,{});
+        $("#lastname").autocomplete(lastnames,{});
     })
     
 </script>
