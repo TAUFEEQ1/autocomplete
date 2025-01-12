@@ -2,11 +2,16 @@
 {% block title %}Register{% endblock %}
 {% block start_scripts %}
 <script
-    src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places&callback=initAutocomplete"
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places&callback=initAutocomplete"
     async defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.9/dist/autoComplete.min.js"></script>
+<script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
 {% endblock %}
 {% block content %}
+<style>
+    .name-input {
+        text-transform: capitalize;
+    }
+</style>
 <div class="container mt-4">
     <h2>Register</h2>
     <form method="POST" action="{{ url_for('register') }}">
@@ -15,7 +20,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     {{ form.firstname.label }}
-                    {{ form.firstname(class="form-control name-input") }}
+                    {{ form.firstname(class="form-control name-input",autocomplete="test") }}
                 </div>
             </div>
             <div class="col-md-6">
@@ -112,6 +117,9 @@
 
         autocomplete.addListener('place_changed', function () {
             var place = autocomplete.getPlace();
+            // get administrative_area_level_2
+            var district = place.address_components.find((component) => component.types.includes('administrative_area_level_2'));
+            document.getElementById('district').value = district.long_name;
             document.getElementById('latitude').value = place.geometry.location.lat();
             document.getElementById('longitude').value = place.geometry.location.lng();
         });
@@ -120,32 +128,13 @@
 <script>
     const firstnames = {{ firstnames|tojson }};
     const lastnames = {{ lastnames|tojson }};
-    function capitalizeFirstLetter(str) {
-        return str[0].toUpperCase() + str.slice(1);
-    }
-    const name_els = document.querySelectorAll('.name-input');
-    name_els.forEach((el)=>{
-        el.addEventListener('change',(e)=>{
-            el.value = capitalizeFirstLetter(el.value);
-        });
-    });
-    const autoCompleteJS = new autoComplete({
-        placeHolder: "First Name",
-        data: {
-            src: firstnames,
-            cache: true,
-        },
-        resultItem: {
-            highlight: true
-        },
-        events: {
-            input: {
-                selection: (event) => {
-                    const selection = event.detail.selection.value;
-                    autoCompleteJS.input.value = selection;
-                }
+    $(document).ready(function(){
+        $("#firstname").autocomplete(firstnames,{
+            onSelect:function(item){
+                console.log(item);
             }
-        }
-    });
+        })
+    })
+    
 </script>
 {% endblock %}

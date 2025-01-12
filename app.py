@@ -3,6 +3,7 @@ from flask import redirect, url_for
 from models import db, User
 from forms import UserForm
 import os
+from file_handler import FileHandler
 
 app = Flask(__name__)
 
@@ -10,13 +11,17 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
-
+google_maps_key = os.environ.get('GOOGLE_MAPS_KEY')
 # Initialize the database with the app
 db.init_app(app)
 
 # Create the database tables (run this once)
 # with app.app_context():
 #     db.create_all()
+
+firstname_handler = FileHandler('firstnames.txt')
+lastname_handler = FileHandler('lastnames.txt')
+
 
 @app.route('/users', methods=['GET'],endpoint='list_users')
 def list_users():
@@ -36,7 +41,12 @@ def show_user(user_id):
 @app.route('/users/create', methods=['GET'],endpoint='new_user')
 def create_user():
     form = UserForm()
-    return render_template('users/create.html', form=form)
+    firstnames = firstname_handler.get_names().copy()
+    lastnames = lastname_handler.get_names().copy()
+    firstnames.sort()
+    lastnames.sort()
+    return render_template('users/create.html', 
+                           form=form, firstnames=firstnames, lastnames=lastnames, google_maps_key=google_maps_key)
 
 @app.route('/users', methods=['POST'],endpoint="register")
 def save_user():
