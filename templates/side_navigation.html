@@ -1,12 +1,18 @@
 <ul class="nav flex-column">
     <li class="nav-item">
-        <a class="nav-link active" href="#">
+        <a class="nav-link intro-link" href="#">
+          Getting started
+        </a>
+    </li>
+    <li class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+        <a class="nav-link" href="{{ url_for('dashboard') }}">
             <i class="fas fa-tachometer-alt"></i>
             Dashboard
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">
+    <li class="nav-item {% if request.endpoint in ['new_user', 'list_users', 'show_user'] %}active{% endif %}">
+        <a class="nav-link"
+            href="{{ url_for('list_users') }}">
             <i class="fas fa-users"></i>
             View Users
         </a>

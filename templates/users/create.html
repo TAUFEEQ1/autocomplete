@@ -4,6 +4,7 @@
 <script
     src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places&callback=initAutocomplete"
     async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.9/dist/autoComplete.min.js"></script>
 {% endblock %}
 {% block content %}
 <div class="container mt-4">
@@ -14,13 +15,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     {{ form.firstname.label }}
-                    {{ form.firstname(class="form-control") }}
+                    {{ form.firstname(class="form-control name-input") }}
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     {{ form.lastname.label }}
-                    {{ form.lastname(class="form-control") }}
+                    {{ form.lastname(class="form-control name-input") }}
                 </div>
             </div>
         </div>
@@ -115,5 +116,36 @@
             document.getElementById('longitude').value = place.geometry.location.lng();
         });
     }
+</script>
+<script>
+    const firstnames = {{ firstnames|tojson }};
+    const lastnames = {{ lastnames|tojson }};
+    function capitalizeFirstLetter(str) {
+        return str[0].toUpperCase() + str.slice(1);
+    }
+    const name_els = document.querySelectorAll('.name-input');
+    name_els.forEach((el)=>{
+        el.addEventListener('change',(e)=>{
+            el.value = capitalizeFirstLetter(el.value);
+        });
+    });
+    const autoCompleteJS = new autoComplete({
+        placeHolder: "First Name",
+        data: {
+            src: firstnames,
+            cache: true,
+        },
+        resultItem: {
+            highlight: true
+        },
+        events: {
+            input: {
+                selection: (event) => {
+                    const selection = event.detail.selection.value;
+                    autoCompleteJS.input.value = selection;
+                }
+            }
+        }
+    });
 </script>
 {% endblock %}

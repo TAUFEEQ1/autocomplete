@@ -2,12 +2,14 @@ from flask import Flask, request, render_template
 from flask import redirect, url_for
 from models import db, User
 from forms import UserForm
+import os
 
 app = Flask(__name__)
 
 # Configure the SQLAlchemy part of the app instance
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
 
 # Initialize the database with the app
 db.init_app(app)
@@ -23,9 +25,8 @@ def list_users():
     
     # Use the paginate method provided by Flask-SQLAlchemy
     pagination = User.query.paginate(page=page, per_page=per_page, error_out=False)
-    users = pagination.items
     
-    return render_template('users/index.html', users=users, pagination=pagination)
+    return render_template('users/index.html', users=pagination)
 
 @app.route('/users/<int:user_id>', methods=['GET'],endpoint='show_user')
 def show_user(user_id):
@@ -62,5 +63,9 @@ def save_user():
 
     return redirect(url_for('list_users'))
 
+@app.route('/', methods=['GET'],endpoint='dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=6500)

@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Length, Optional
+from wtforms import SelectField
 
 class UserForm(FlaskForm):
     firstname = StringField('First Name', validators=[DataRequired(), Length(max=50)])
@@ -16,4 +17,11 @@ class UserForm(FlaskForm):
     residence = StringField('Residence', validators=[DataRequired(), Length(max=50)])
     latitude = StringField('Latitude', validators=[DataRequired()])
     longitude = StringField('Longitude', validators=[DataRequired()])
+    nationality = SelectField('Nationality', choices=[
+        ('ugandan', 'Ugandan'),
+        ('kenyan', 'Kenyan'),
+        ('tanzanian', 'Tanzanian'),
+        ('rwandese', 'Rwandese'),
+        ('south_sudanese', 'South Sudanese')
+    ], validators=[DataRequired()])
     submit = SubmitField('Save')
