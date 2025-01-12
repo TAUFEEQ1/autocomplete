@@ -33,10 +33,10 @@ def list_users():
     
     return render_template('users/index.html', users=pagination)
 
-@app.route('/users/<int:user_id>', methods=['GET'],endpoint='show_user')
-def show_user(user_id):
-    user = User.query.get_or_404(user_id)
-    return render_template('users/show.html', user=user)
+@app.route('/users/<int:id>', methods=['GET'],endpoint='show_user')
+def show_user(id):
+    user = User.query.get_or_404(id)
+    return render_template('users/show.html', user=user, google_maps_key=google_maps_key)
 
 @app.route('/users/create', methods=['GET'],endpoint='new_user')
 def create_user():
@@ -56,16 +56,21 @@ def save_user():
     nin = request.form['nin']
     phone_no = request.form['phone_no']
     next_of_kin = request.form['next_of_kin_firstname'] + ' ' + request.form['next_of_kin_lastname']
+    
+    firstname_handler.update([request.form['next_of_kin_firstname'], request.form['firstname']])
+    lastname_handler.update([request.form['next_of_kin_lastname'], request.form['lastname']])
+    
     next_of_kin_phone_no = request.form['next_of_kin_phone_no']
     district = request.form['district']
-    subcounty = request.form['subcounty']
-    parish = request.form['parish']
-    village = request.form['village']
+    subcounty = 'N/A'
+    parish = 'N/A'
+    village = 'N/A'
     residence = request.form['residence']
+    nationality = request.form['nationality']
     latitude = request.form['latitude']
     longitude = request.form['longitude']
 
-    user = User(firstname=firstname, lastname=lastname, nin=nin, phone_no=phone_no, next_of_kin=next_of_kin, next_of_kin_phone_no=next_of_kin_phone_no, district=district, subcounty=subcounty, parish=parish, village=village, residence=residence, latitude=latitude, longitude=longitude)
+    user = User(firstname=firstname, lastname=lastname, nin=nin, phone_no=phone_no, next_of_kin=next_of_kin, next_of_kin_phone_no=next_of_kin_phone_no, district=district, subcounty=subcounty, parish=parish, village=village, residence=residence, latitude=latitude, longitude=longitude,nationality=nationality)
     db.session.add(user)
     db.session.commit()
 

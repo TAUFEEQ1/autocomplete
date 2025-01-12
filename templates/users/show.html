@@ -1,24 +1,43 @@
 {% extends "base.html" %}
+{% block title %}User Details{% endblock %}
 {% block content %}
 <div class="container mt-4">
-    <h2>User Details</h2>
-    <div class="card">
-        <img src="https://picsum.photos/200" class="card-img-top" alt="Placeholder Image">
-        <div class="card-body">
-            <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}</h5>
-            <p class="card-text">NIN: {{ user.nin | default('NA') }}</p>
-            <p class="card-text">Nationality: {{ user.nationality }}</p>
-            <p class="card-text">Phone Number: {{ user.phone_no }}</p>
-            <p class="card-text">Next of Kin: {{ user.next_of_kin }}</p>
-            <p class="card-text">Next of Kin Phone Number: {{ user.next_of_kin_phone_no }}</p>
-            <p class="card-text">District: {{ user.district }}</p>
-            <p class="card-text">Subcounty: {{ user.subcounty }}</p>
-            <p class="card-text">Parish: {{ user.parish }}</p>
-            <p class="card-text">Village: {{ user.village }}</p>
-            <p class="card-text">Residence: {{ user.residence }}</p>
-            <a href="{{ url_for('edit_user', id=user.id) }}" class="btn btn-primary">Edit</a>
-            <a href="{{ url_for('delete_user', id=user.id) }}" class="btn btn-danger">Delete</a>
+    <h3>User Details</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <div id="map" style="height: 600px;"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://picsum.photos/280" class="card-img-top" alt="Placeholder Image" style="height: 260px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}</h5>
+                    <p class="card-text">NIN: {{ user.nin | default('NA') }}</p>
+                    <p class="card-text text-capitalize">Nationality: {{ user.nationality }}</p>
+                    <p class="card-text">Phone Number: {{ user.phone_no }}</p>
+                    <p class="card-text">Next of Kin: {{ user.next_of_kin }}</p>
+                    <p class="card-text">Next of Kin Phone Number: {{ user.next_of_kin_phone_no }}</p>
+                    <p class="card-text">District: {{ user.district }}</p>
+                    <p class="card-text">Residence: {{ user.residence }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
+{% block end_scripts %}
+<script>
+    function initMap() {
+        var userLocation = { lat: {{ user.latitude }}, lng: {{ user.longitude }} };
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: userLocation
+        });
+        var marker = new google.maps.Marker({
+            position: userLocation,
+            map: map
+        });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&callback=initMap"></script>
 {% endblock %}

@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Register{% endblock %}
 {% block start_scripts %}
-<script
-    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places&callback=initAutocomplete"
-    async defer></script>
 <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
 {% endblock %}
 {% block content %}
@@ -58,13 +55,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     {{ form.next_of_kin_firstname.label }}
-                    {{ form.next_of_kin_firstname(class="form-control") }}
+                    {{ form.next_of_kin_firstname(class="form-control name-input") }}
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     {{ form.next_of_kin_lastname.label }}
-                    {{ form.next_of_kin_lastname(class="form-control") }}
+                    {{ form.next_of_kin_lastname(class="form-control name-input") }}
                 </div>
             </div>
         </div>
@@ -111,12 +108,18 @@
         });
     }
 </script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places&callback=initAutocomplete"
+    async defer></script>
 <script>
     const firstnames = {{ firstnames|tojson }};
     const lastnames = {{ lastnames|tojson }};
     $(document).ready(function(){
         $("#firstname").autocomplete(firstnames,{});
         $("#lastname").autocomplete(lastnames,{});
+
+        $("#next_of_kin_firstname").autocomplete(firstnames,{});
+        $("#next_of_kin_lastname").autocomplete(lastnames,{});
     })
     
 </script>

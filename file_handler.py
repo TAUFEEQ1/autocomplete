@@ -1,3 +1,18 @@
+
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        
+        if arr[mid] == target:
+            return True
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return False
 class FileHandler:
     def __init__(self, filename):
         self.filename = filename
@@ -23,6 +38,16 @@ class FileHandler:
         names.sort()
 
         with open(self.filename, 'w') as f:
-            f.writelines(names)
-            
+            for name in names:
+                f.write(f"{name}\n")
+
         return f"New names have been appended to {self.filename}."
+    
+    def update(self,new_names:list):
+        novel_names = []
+        for name in new_names:
+            if not binary_search(self.get_names(), name):
+                novel_names.append(name)
+        if novel_names:
+            self.append_names(novel_names)
+            return f"New names have been appended to {self.filename}."
